@@ -1,4 +1,4 @@
-module SocialSnippt
+module SocialSnippet
   module RegistryCore; end
 end
 require_relative "registry_core/common_helpers"
