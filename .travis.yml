@@ -16,3 +16,11 @@ sudo: false
 
 script:
   - bundle exec rake spec
+
+deploy:
+  provider: rubygems
+  api_key:
+    master:
+      secure: "IJ++p1ozWwXqK83UZR8xAdzZR5XHVAr5uU2xKCIRsHYe+wi7c0SgOqA+j5VM9US+YTB3zT7gXdvTAajNMR5sPp6prbzFe4BD2G8RfrFAoPkN+GNzgSVbgXk8DQnmJVKDPleSaqo68AA244dGVPqHyBVi+rFFxc7jMtQPlttBJYE="
+  gem:
+    master: social_snippet-registry_core
