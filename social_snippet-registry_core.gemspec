@@ -8,9 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = SocialSnippet::RegistryCore::VERSION
   spec.authors       = ["Hiroyuki Sano"]
   spec.email         = ["sh19910711@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{The server-side core classes for social-snippet-registry}
+  spec.homepage      = "https://sspm.herokuapp.com"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
