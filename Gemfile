@@ -1,4 +1,17 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in social_snippet-registry_core.gemspec
+# Distribute your app as a gem
 gemspec
+
+group :test do
+  gem "rspec"
+  gem "database_cleaner"
+  gem "factory_girl"
+  gem "rack-test"
+end
+
+group :debug do
+  gem "shotgun"
+  gem "pry-byebug"
+end
+

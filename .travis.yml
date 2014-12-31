@@ -1,0 +1,18 @@
+language: ruby
+
+rvm:
+  - "2.1"
+  - "2.0"
+  - "1.9"
+
+services:
+  - mongodb
+  - redis-server
+  - memcached
+
+bundler_args: "--without production:debug --jobs 4 --retry 3"
+
+sudo: false
+
+script:
+  - bundle exec rake spec

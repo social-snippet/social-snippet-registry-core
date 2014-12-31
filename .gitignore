@@ -7,8 +7,12 @@
 /pkg/
 /spec/reports/
 /tmp/
+/log/
+/public/
 *.bundle
 *.so
 *.o
 *.a
 mkmf.log
+/vendor/bundle
+*.bak
