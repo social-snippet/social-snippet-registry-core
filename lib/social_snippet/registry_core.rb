@@ -1,7 +1,8 @@
-require "social_snippet/registry_core/version"
-
-module SocialSnippet
-  module RegistryCore
-    # Your code goes here...
-  end
+module SocialSnippt
+  module RegistryCore; end
 end
+require_relative "registry_core/common_helpers"
+require_relative "registry_core/config_helpers"
+require_relative "registry_core/version"
+require_relative "registry_core/version_helpers"
+require_relative "registry_core/fetcher"
