@@ -1,19 +1,23 @@
-class SocialSnippet::RegistryCore::Fetcher::FetcherBase
+module SocialSnippet::RegistryCore
 
-  require "version_sorter"
+  class Fetcher::FetcherBase
 
-  def latest_version(vers)
-    VersionSorter.rsort(vers).first
-  end
+    require "version_sorter"
 
-  def versions(owner_id, repo_id)
-    refs_by(owner_id, repo_id).select do |ref|
-      VersionHelpers.is_version?(ref)
+    def latest_version(vers)
+      ::VersionSorter.rsort(vers).first
     end
-  end
 
-  def snippet_json(url)
-    raise "not implemented"
-  end
+    def versions(owner_id, repo_id)
+      refs_by(owner_id, repo_id).select do |ref|
+        VersionHelpers.is_version?(ref)
+      end
+    end
 
-end # FetcherBase
+    def snippet_json(url)
+      raise "not implemented"
+    end
+
+  end # FetcherBase
+
+end

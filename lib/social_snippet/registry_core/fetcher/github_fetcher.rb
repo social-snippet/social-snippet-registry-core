@@ -1,6 +1,6 @@
-module SocialSnippet::RegistryCore::Fetcher
+module SocialSnippet::RegistryCore
 
-  class GitHubFetcher < FetcherBase
+  class Fetcher::GitHubFetcher < Fetcher::FetcherBase
 
     require "octokit"
     require "json"
