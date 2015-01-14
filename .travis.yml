@@ -10,12 +10,17 @@ services:
   - redis-server
   - memcached
 
-bundler_args: "--without production:debug --jobs 4 --retry 3"
-
 sudo: false
+
+install:
+  - bundle install --without debug --jobs 4 --retry 3 --path vendor/bundle
 
 script:
   - bundle exec rake spec
+
+cache:
+  directories:
+    - vendor/bundle
 
 deploy:
   provider: rubygems
