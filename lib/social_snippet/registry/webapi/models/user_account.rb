@@ -1,4 +1,4 @@
-class UserAccount
+class SocialSnippet::Registry::WebAPI::UserAccount
 
   include Mongoid::Document
   include Mongoid::Timestamps # adds created_at and updated_at fields
