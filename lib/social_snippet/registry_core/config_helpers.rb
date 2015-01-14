@@ -31,7 +31,7 @@ module SocialSnippet::RegistryCore::ConfigHelpers
       logger.info "Enable User Access Control: #{self}"
 
       register ::Padrino::Admin::AccessControl
-      set :admin_model, "UserAccount"
+      set :admin_model, "::SocialSnippet::Registry::WebAPI::UserAccount"
       set :login_page, :login
       enable :authentication
       enable :store_location
