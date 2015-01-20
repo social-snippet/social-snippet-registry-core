@@ -50,7 +50,7 @@ class SocialSnippet::Registry::WebAPI::Repository
   validates_presence_of :url
 
   validates_each :dependencies do |model, key, value|
-    return if value.nil?
+    next unless value.is_a?(Array)
     value.each do |dep|
       unless self.is_valid_repo_name?(dep)
         model.errors[:dependencies] << "invalid deps"
@@ -60,13 +60,14 @@ class SocialSnippet::Registry::WebAPI::Repository
   end
 
   validates_each :dependencies do |model, key, value|
+    next unless value.is_a?(Array)
     model.errors[:dependencies] << "The size of dependencies must be less than 64" if value.length > 64
   end
 
   validates_length_of :license, :maximum => 64
 
   validates_each :languages do |model, key, value|
-    return if value.nil?
+    next unless value.is_a?(Array)
     value.each do |lang|
       unless self.is_valid_language?(lang)
         model.errors[:languages] << "invalid language"
@@ -76,6 +77,7 @@ class SocialSnippet::Registry::WebAPI::Repository
   end
 
   validates_each :languages do |model, key, value|
+    next unless value.is_a?(Array)
     model.errors[:languages] << "The size of languages must be less than 64" if value.length > 64
   end
 
