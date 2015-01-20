@@ -27,7 +27,7 @@ module SocialSnippet::Registry::WebAPI
       info = fetcher.snippet_json(repo_url)
       repo = Repository.create_by_snippet_json(info)
       repo.url = repo_url
-      repo.save
+      repo.save!
 
       "ok"
     end

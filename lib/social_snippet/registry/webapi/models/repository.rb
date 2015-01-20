@@ -50,6 +50,7 @@ class SocialSnippet::Registry::WebAPI::Repository
   validates_presence_of :url
 
   validates_each :dependencies do |model, key, value|
+    return if value.nil?
     value.each do |dep|
       unless self.is_valid_repo_name?(dep)
         model.errors[:dependencies] << "invalid deps"
@@ -65,6 +66,7 @@ class SocialSnippet::Registry::WebAPI::Repository
   validates_length_of :license, :maximum => 64
 
   validates_each :languages do |model, key, value|
+    return if value.nil?
     value.each do |lang|
       unless self.is_valid_language?(lang)
         model.errors[:languages] << "invalid language"
