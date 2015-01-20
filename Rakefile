@@ -13,3 +13,10 @@ RSpec::Core::RakeTask.new(:spec) do |t|
   ]
 end
 
+RSpec::Core::RakeTask.new(:test) do |t|
+  t.rspec_opts = [
+    "--pattern '../test/*_test.rb'",
+    "--color",
+  ]
+end
+
