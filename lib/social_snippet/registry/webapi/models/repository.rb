@@ -3,7 +3,9 @@ class SocialSnippet::Registry::WebAPI::Repository
   include Mongoid::Document
   include Mongoid::Timestamps # adds created_at and updated_at fields
 
+  #
   # field <name>, :type => <type>, :default => <value>
+  #
 
   # Repository's Name (e.g. "my-repo")
   field :name, :type => String
@@ -30,17 +32,52 @@ class SocialSnippet::Registry::WebAPI::Repository
   # You can create a composite key in mongoid to replace the default id using the key macro:
   # key :field <, :another_field, :one_more ....>
  
+  #
   # validations
+  #
   validates_presence_of :name
-  validates_presence_of :url
+  validates_length_of :name, :minimum => 1, :maximum => 64
+  validates_each :name do |model, key, value|
+    self.is_valid_repo_name?(value)
+  end
 
+  validates_length_of :desc, :maximum => 200
+
+  validates_length_of :url, :maximum => 256
+
+  validates_each :dependencies do |model, key, value|
+    value.each do |dep|
+      return false unless self.is_valid_repo_name?(dep)
+    end
+  end
+
+  validates_each :dependencies do |model, key, value|
+    value.length < 64
+  end
+
+  validates_length_of :license, :maximum => 64
+
+  validates_each :languages do |model, key, value|
+    value.each do |lang|
+      return false unless self.is_valid_language?(lang)
+    end
+  end
+
+  validates_each :languages do |model, key, value|
+    value.length < 64
+  end
+
+  #
   # methods
+  #
   
   FIELD_KEYS = [
     :name,
     :url,
     :desc,
     :dependencies,
+    :license,
+    :languages,
   ]
   
   def to_object
@@ -61,6 +98,14 @@ class SocialSnippet::Registry::WebAPI::Repository
   end
 
   class << self
+
+    def is_valid_language?(language)
+      /[a-zA-Z0-9\.\-\_\+\#]*/ === language
+    end
+
+    def is_valid_repo_name?(repo_name)
+      /[a-z][a-z0-9\.\-\_]*/ === repo_name
+    end
 
     def all_repos
       all.map {|repo| repo.to_object }
