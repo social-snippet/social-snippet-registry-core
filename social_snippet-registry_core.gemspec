@@ -20,8 +20,6 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 1.9"
 
   spec.add_runtime_dependency "bundler"
-  spec.add_runtime_dependency "rake"
-
   spec.add_runtime_dependency "padrino", "~> 0.12"
   spec.add_runtime_dependency "thin"
   spec.add_runtime_dependency "mongoid", "~> 4.0"
@@ -33,4 +31,17 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "version_sorter"
   spec.add_runtime_dependency "octokit"
   spec.add_runtime_dependency "omniauth-github"
+
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "codeclimate-test-reporter"
+  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "database_cleaner"
+  spec.add_development_dependency "factory_girl"
+  spec.add_development_dependency "rack-test"
+  spec.add_development_dependency "mongoid-tree"
+
+  if ENV["SOCIAL_SNIPPET_DEBUG"] === "true"
+    spec.add_development_dependency "shotgun"
+    spec.add_development_dependency "pry-byebug"
+  end
 end
