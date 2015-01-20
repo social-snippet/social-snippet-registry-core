@@ -18,6 +18,7 @@ install:
 
 script:
   - bundle exec rake spec
+  - bundle exec rake test
 
 cache:
   directories:
