@@ -17,6 +17,12 @@ class SocialSnippet::Registry::WebAPI::Repository
   # Repository's dependencies (e.g. ["dep-to-1", "dep-to-2", ...])
   field :dependencies, :type => Array, :default => lambda { [] }
 
+  # Repository's license (e.g. MIT)
+  field :license, :type => String
+
+  # Target programming languages (e.g. C++, Ruby)
+  field :languages, :type => Array, :default => lambda { [] }
+
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>
   index({name: 1}, {unique: true})
