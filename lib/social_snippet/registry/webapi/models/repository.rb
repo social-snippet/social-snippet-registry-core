@@ -44,6 +44,10 @@ class SocialSnippet::Registry::WebAPI::Repository
   validates_length_of :desc, :maximum => 200
 
   validates_length_of :url, :maximum => 256
+  validates_each :url do |model, key, value|
+    model.errors[:url] << "Invalid URL" unless self.is_valid_url?(value)
+  end
+  validates_presence_of :url
 
   validates_each :dependencies do |model, key, value|
     value.each do |dep|
@@ -104,6 +108,10 @@ class SocialSnippet::Registry::WebAPI::Repository
   end
 
   class << self
+
+    def is_valid_url?(url)
+      /^(http|https|git)\:\/\// === url
+    end
 
     def is_valid_language?(language)
       /^[a-zA-Z0-9\.\-\_\+\#]+$/ === language
