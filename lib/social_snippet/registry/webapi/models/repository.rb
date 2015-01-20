@@ -38,7 +38,7 @@ class SocialSnippet::Registry::WebAPI::Repository
   validates_presence_of :name
   validates_length_of :name, :minimum => 1, :maximum => 64
   validates_each :name do |model, key, value|
-    self.is_valid_repo_name?(value)
+    model.errors[:name] << "Invalid name" unless self.is_valid_repo_name?(value)
   end
 
   validates_length_of :desc, :maximum => 200
@@ -47,24 +47,30 @@ class SocialSnippet::Registry::WebAPI::Repository
 
   validates_each :dependencies do |model, key, value|
     value.each do |dep|
-      return false unless self.is_valid_repo_name?(dep)
+      unless self.is_valid_repo_name?(dep)
+        model.errors[:dependencies] << "invalid deps"
+        break
+      end
     end
   end
 
   validates_each :dependencies do |model, key, value|
-    value.length < 64
+    model.errors[:dependencies] << "The size of dependencies must be less than 64" if value.length > 64
   end
 
   validates_length_of :license, :maximum => 64
 
   validates_each :languages do |model, key, value|
     value.each do |lang|
-      return false unless self.is_valid_language?(lang)
+      unless self.is_valid_language?(lang)
+        model.errors[:languages] << "invalid language"
+        break
+      end
     end
   end
 
   validates_each :languages do |model, key, value|
-    value.length < 64
+    model.errors[:languages] << "The size of languages must be less than 64" if value.length > 64
   end
 
   #
@@ -100,11 +106,11 @@ class SocialSnippet::Registry::WebAPI::Repository
   class << self
 
     def is_valid_language?(language)
-      /[a-zA-Z0-9\.\-\_\+\#]*/ === language
+      /[a-zA-Z0-9\.\-\_\+\#]+/ === language
     end
 
     def is_valid_repo_name?(repo_name)
-      /[a-z][a-z0-9\.\-\_]*/ === repo_name
+      /^[a-z][a-z0-9\.\-\_]*/ === repo_name
     end
 
     def all_repos
