@@ -106,11 +106,11 @@ class SocialSnippet::Registry::WebAPI::Repository
   class << self
 
     def is_valid_language?(language)
-      /[a-zA-Z0-9\.\-\_\+\#]+/ === language
+      /^[a-zA-Z0-9\.\-\_\+\#]+$/ === language
     end
 
     def is_valid_repo_name?(repo_name)
-      /^[a-z][a-z0-9\.\-\_]*/ === repo_name
+      /^[a-z][a-z0-9\.\-\_]*$/ === repo_name
     end
 
     def all_repos
