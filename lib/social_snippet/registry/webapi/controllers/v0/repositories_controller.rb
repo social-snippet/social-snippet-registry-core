@@ -20,7 +20,7 @@ module SocialSnippet::Registry::WebAPI
     # POST /repositories
     #
     # @param url [String]
-    post :index do
+    post :index, :provides => :json do
       repo_url = normalize_url(params[:url])
       fetcher = create_fetcher(repo_url)
 
@@ -29,7 +29,10 @@ module SocialSnippet::Registry::WebAPI
       repo.url = repo_url
       repo.save!
 
-      "ok"
+      {
+        :name => repo.name,
+        :status => "ok",
+      }.to_json
     end
 
   end # controllers
