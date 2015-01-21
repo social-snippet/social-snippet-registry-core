@@ -1,7 +1,7 @@
 # SocialSnippet::RegistryCore
 
 [![Gem Version](https://img.shields.io/gem/v/social_snippet-registry_core.svg?style=flat)](https://rubygems.org/gems/social_snippet-registry_core)
-[![Build Status](https://img.shields.io/travis/social-snippet/social-snippet-registry-core.svg??style=flat)](https://travis-ci.org/social-snippet/social-snippet-registry-core)
+[![Build Status](https://img.shields.io/travis/social-snippet/social-snippet-registry-core.svg?style=flat)](https://travis-ci.org/social-snippet/social-snippet-registry-core)
 [![Code Climate](https://img.shields.io/codeclimate/github/social-snippet/social-snippet-registry-core.svg?style=flat)](https://codeclimate.com/github/social-snippet/social-snippet-registry-core)
 [![Test Coverage](https://img.shields.io/codeclimate/coverage/github/social-snippet/social-snippet-registry-core.svg?style=flat)](https://codeclimate.com/github/social-snippet/social-snippet-registry-core)
 
