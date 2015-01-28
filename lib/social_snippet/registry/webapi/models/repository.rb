@@ -45,9 +45,13 @@ class SocialSnippet::Registry::WebAPI::Repository
   validate do
     errors[:name] << "Invalid name" unless self.class.is_valid_repo_name?(name)
     errors[:url] << "Invalid URL" unless self.class.is_valid_url?(url)
-    errors[:dependencies] << "invalid dependencies" if has_invalid_dependencies?
-    errors[:dependencies] << "The size of dependencies must be less than 64" if dependencies.length > 64
-    errors[:languages] << "The size of languages must be less than 64" if languages.length > 64
+    if dependencies.is_a?(Array)
+      errors[:dependencies] << "invalid dependencies" if has_invalid_dependencies?
+      errors[:dependencies] << "The size of dependencies must be less than 64" if dependencies.length > 64
+    end
+    if languages.is_a?(Array)
+      errors[:languages] << "The size of languages must be less than 64" if languages.length > 64
+    end
   end
 
   def has_invalid_dependencies?
