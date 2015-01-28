@@ -3,7 +3,7 @@ module SocialSnippet::Registry::WebAPI
   WebAPIv0.controllers :repositories do
 
     # GET /repositories
-    get :index do
+    get :index, :provides => :json do
       if params[:q].nil?
         Repository.all_repos.to_json
       else
