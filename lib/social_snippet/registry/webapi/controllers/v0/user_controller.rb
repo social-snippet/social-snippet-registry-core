@@ -17,7 +17,7 @@ module SocialSnippet::Registry::WebAPI
       end.to_json
     end
 
-    patch "/repositories" do
+    put "/repositories" do
       client = ::Octokit::Client.new(:access_token => current_account.github_access_token)
       client.auto_paginate = true
       repos = SortedSet.new
@@ -41,7 +41,11 @@ module SocialSnippet::Registry::WebAPI
       
       current_account.update_attributes :github_repos => repos.to_a
 
-      "ok"
+      current_account.github_repos.map do |repo_name|
+        {
+          :name => repo_name,
+        }
+      end.to_json
     end
 
   end
