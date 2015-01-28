@@ -36,49 +36,26 @@ class SocialSnippet::Registry::WebAPI::Repository
   # validations
   #
   validates_presence_of :name
-  validates_length_of :name, :minimum => 1, :maximum => 64
-  validates_each :name do |model, key, value|
-    model.errors[:name] << "Invalid name" unless self.is_valid_repo_name?(value)
-  end
-
-  validates_length_of :desc, :maximum => 200
-
-  validates_length_of :url, :maximum => 256
-  validates_each :url do |model, key, value|
-    model.errors[:url] << "Invalid URL" unless self.is_valid_url?(value)
-  end
   validates_presence_of :url
-
-  validates_each :dependencies do |model, key, value|
-    next unless value.is_a?(Array)
-    value.each do |dep|
-      unless self.is_valid_repo_name?(dep)
-        model.errors[:dependencies] << "invalid deps"
-        break
-      end
-    end
-  end
-
-  validates_each :dependencies do |model, key, value|
-    next unless value.is_a?(Array)
-    model.errors[:dependencies] << "The size of dependencies must be less than 64" if value.length > 64
-  end
-
+  validates_length_of :name, :minimum => 1, :maximum => 64
+  validates_length_of :desc, :maximum => 200
+  validates_length_of :url, :maximum => 256
   validates_length_of :license, :maximum => 64
 
-  validates_each :languages do |model, key, value|
-    next unless value.is_a?(Array)
-    value.each do |lang|
-      unless self.is_valid_language?(lang)
-        model.errors[:languages] << "invalid language"
-        break
-      end
-    end
+  validate do
+    errors[:name] << "Invalid name" unless self.class.is_valid_repo_name?(name)
+    errors[:url] << "Invalid URL" unless self.class.is_valid_url?(url)
+    errors[:dependencies] << "invalid dependencies" if has_invalid_dependencies?
+    errors[:dependencies] << "The size of dependencies must be less than 64" if dependencies.length > 64
+    errors[:languages] << "The size of languages must be less than 64" if languages.length > 64
   end
 
-  validates_each :languages do |model, key, value|
-    next unless value.is_a?(Array)
-    model.errors[:languages] << "The size of languages must be less than 64" if value.length > 64
+  def has_invalid_dependencies?
+    dependencies.any? {|dep_name| not self.class.is_valid_repo_name?(dep_name) }
+  end
+
+  def has_invalid_language?
+    languages.any? {|language| not self.class.is_valid_language?(lang) }
   end
 
   #
