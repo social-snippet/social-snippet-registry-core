@@ -22,30 +22,26 @@ module SocialSnippet::Registry::WebAPI
       client.auto_paginate = true
       repos = SortedSet.new
 
-      repos.merge(
-        client.repos.select do |repo|
+      user_repos = client.repos.select do |repo|
+        repo["permissions"]["admin"]
+      end.map do |repo|
+        repo["full_name"]
+      end
+
+      org_repos = client.orgs.map do |org|
+        client.org_repos(org.login, {:type => "all"}).select do |repo|
           repo["permissions"]["admin"]
         end.map do |repo|
           repo["full_name"]
         end
-      )
-      repos.merge(
-        client.orgs.map do |org|
-          client.org_repos(org.login, {:type => "all"}).select do |repo|
-            repo["permissions"]["admin"]
-          end.map do |repo|
-            repo["full_name"]
-          end
-        end.flatten
-      )
+      end.flatten
+
+      repos.merge user_repos
+      repos.merge org_repos
       
       current_account.update_attributes :github_repos => repos.to_a
 
-      current_account.github_repos.map do |repo_name|
-        {
-          :name => repo_name,
-        }
-      end.to_json
+      current_account.github_repos_names.to_json
     end
 
   end

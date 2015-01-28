@@ -14,6 +14,12 @@ class SocialSnippet::RegistryCore::Models::UserAccount
 
   # You can create a composite key in mongoid to replace the default id using the key macro:
   # key :field <, :another_field, :one_more ....>
+  
+  def github_repos_names
+    github_repos.map do |repo_name|
+      { :name => repo_name, }
+    end
+  end
 
   def self.find_by_id(s)
     if s.nil?
