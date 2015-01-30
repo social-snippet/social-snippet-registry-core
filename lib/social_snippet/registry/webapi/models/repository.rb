@@ -95,7 +95,11 @@ class SocialSnippet::Registry::WebAPI::Repository
   class << self
 
     def is_valid_url?(url)
-      /^(http|https|git)\:\/\// === url
+      return false unless /^(http|https|git)\:\/\// === url
+      uri = ::URI.parse(url)
+      return false unless "github.com" === uri.host
+      return false unless /^\/[^\/]+\/[^\/]+$/ === uri.path
+      true
     end
 
     def is_valid_language?(language)
