@@ -3,6 +3,23 @@ class SocialSnippet::Registry::WebAPI::Repository
   include Mongoid::Document
   include Mongoid::Timestamps # adds created_at and updated_at fields
 
+
+  #
+  # constants
+  #
+
+  ORIGIN_TYPE_GITHUB = 1
+
+  FIELD_KEYS = [
+    :name,
+    :url,
+    :desc,
+    :dependencies,
+    :license,
+    :languages,
+  ]
+
+
   #
   # field <name>, :type => <type>, :default => <value>
   #
@@ -24,6 +41,8 @@ class SocialSnippet::Registry::WebAPI::Repository
 
   # Target programming languages (e.g. C++, Ruby)
   field :languages, :type => Array, :default => []
+
+  field :origin_type, :type => Integer, :default => -> { detect_origin_type }
 
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>
@@ -54,6 +73,14 @@ class SocialSnippet::Registry::WebAPI::Repository
     end
   end
 
+  def detect_origin_type
+    if url.nil?
+      nil
+    elsif self.class.is_github_url?(url)
+      ORIGIN_TYPE_GITHUB
+    end
+  end
+
   def has_invalid_dependencies?
     dependencies.any? {|dep_name| not self.class.is_valid_repo_name?(dep_name) }
   end
@@ -65,15 +92,6 @@ class SocialSnippet::Registry::WebAPI::Repository
   #
   # methods
   #
-  
-  FIELD_KEYS = [
-    :name,
-    :url,
-    :desc,
-    :dependencies,
-    :license,
-    :languages,
-  ]
   
   def to_object
     FIELD_KEYS.reduce({}) do |obj, key|
