@@ -39,6 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "factory_girl"
   spec.add_development_dependency "rack-test"
   spec.add_development_dependency "mongoid-tree"
+  spec.add_development_dependency "webmock"
 
   if ENV["SOCIAL_SNIPPET_DEBUG"] === "true"
     spec.add_development_dependency "shotgun"
