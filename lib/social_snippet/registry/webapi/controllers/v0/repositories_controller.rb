@@ -15,6 +15,13 @@ SocialSnippet::Registry::WebAPI::WebAPIv0.controllers :repositories do
     repo_model.to_object.to_json
   end
 
+  # Update repository's info
+  put :index, :with => [:id] do
+    repo = ::SocialSnippet::Registry::WebAPI::Repository.find_by(:name => params[:id])
+    repo.fetch
+    repo.to_object.to_json
+  end
+
   # POST /repositories
   #
   # @param url [String]
