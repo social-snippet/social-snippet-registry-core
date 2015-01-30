@@ -97,7 +97,7 @@ class SocialSnippet::Registry::WebAPI::Repository
     def is_github_url?(url)
       return false unless is_valid_url?(url)
       uri = ::URI.parse(url)
-      "github.com" === uri.host && /^\/[^\/]+\/[^\/]+$/ === url.path
+      "github.com" === uri.host && /^\/[^\/]+\/[^\/]+$/ === uri.path
     end
 
     def is_valid_url?(url)
