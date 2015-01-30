@@ -11,6 +11,9 @@ module SocialSnippet::RegistryCore::ConfigHelpers
   #
 
   def sspm_enable_tracker
+    return if @sspm_enable_tracker_visited
+    @sspm_enable_tracker_visited = true
+
     unless ENV["SSPM_GOOGLE_ANALYTICS"].nil?
       use ::Rack::Tracker do
         handler :google_analytics, { tracker: ENV["SSPM_GOOGLE_ANALYTICS"] }
