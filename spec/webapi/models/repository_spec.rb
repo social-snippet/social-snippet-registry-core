@@ -9,19 +9,60 @@ module SocialSnippet::Registry::WebAPI
       context "create model" do
 
         let(:model) do
-          Repository.new(
+          Repository.create!(
             :name => "my-repo",
-            :desc => "thisisdesc",
-            :url => "git://url/to/git/repo",
+            :desc => "this is my repo",
+            :url => "git://github.com/user/my-repo.git",
           )
         end
 
-        context "call to_object" do
+        describe "#to_object" do
           let(:result) { model.to_object }
           it { expect(result[:name]).to eq "my-repo" }
-          it { expect(result[:desc]).to eq "thisisdesc" }
-          it { expect(result[:url]).to  eq "git://url/to/git/repo" }
+          it { expect(result[:desc]).to eq "this is my repo" }
+          it { expect(result[:url]).to  eq "git://github.com/user/my-repo.git" }
         end # call to_object
+
+        context "fetch snippet.json" do
+
+          before do
+            WebMock.stub_request(
+              :get,
+              "https://api.github.com/repos/user/my-repo/git/refs",
+            ).to_return(
+              :status => 200,
+              :body => [
+                {
+                  :ref => "refs/heads/master",
+                },
+              ].to_json,
+              :headers => {
+                "Content-Type" => "application/json",
+              },
+            )
+
+            WebMock.stub_request(
+              :get,
+              "https://api.github.com/repos/user/my-repo/contents/snippet.json",
+            ).to_return(
+              :status => 200,
+              :body => {
+                :content => ::Base64.encode64({
+                  :name => "new-my-repo",
+                  :desc => "this is new my repo",
+                }.to_json),
+              }.to_json,
+              :headers => {
+                "Content-Type" => "application/json",
+              },
+            )
+          end # github api
+
+          before { model.fetch }
+          it { expect(model.name).to eq "my-repo" }
+          it { expect(model.desc).to eq "this is new my repo" }
+
+        end
 
       end # create model
 
