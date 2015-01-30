@@ -32,12 +32,14 @@ module SocialSnippet::Registry::WebAPI
       context "create model" do
 
         let(:model) do
-          Repository.new(
+          Repository.create!(
             :name => "my-repo",
             :desc => "thisisdesc",
-            :url => "git://url/to/git/repo",
+            :url => "git://github.com/user/repo",
           )
         end
+
+        it { expect(model.origin_type).to eq Repository::ORIGIN_TYPE_GITHUB }
 
         context "create repo" do
 
